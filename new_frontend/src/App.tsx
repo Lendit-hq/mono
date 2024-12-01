@@ -70,14 +70,14 @@ function App() {
                   }}
                 />
               </Box>
-              <Flex justify="center" align="center" gap="8px">
+              <Flex justify="center" align="center" gap="16px">
                 <Box>
                   <img
                     src={SuiLendIcon}
                     alt="SUILEND"
-                    style={{ width: "50px", height: "50px" }}
+                    style={{ width: "50px", height: "50px", borderRadius: "50%" }}
                   />
-                  <Text size="1" color="gray">
+                  <Text size="1" color="gray" align="center">
                     SUILEND
                   </Text>
                 </Box>
@@ -85,29 +85,44 @@ function App() {
                   <img
                     src={NaviIcon}
                     alt="NAVI"
-                    style={{ width: "50px", height: "50px" }}
+                    style={{ width: "50px", height: "50px", borderRadius: "50%" }}
                   />
-                  <Text size="1" color="gray">
+                  <Text size="1" color="gray" align="center">
                     NAVI
                   </Text>
                 </Box>
-                {/* Empty Slots */}
-                <Box
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    backgroundColor: "#f3f3f3",
-                    borderRadius: "50%",
-                  }}
-                />
-                <Box
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    backgroundColor: "#f3f3f3",
-                    borderRadius: "50%",
-                  }}
-                />
+                <Box>
+                  <div
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      backgroundColor: "#f3f3f3",
+                      borderRadius: "50%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  />
+                  <Text size="1" color="gray" align="center">
+                    COMING
+                  </Text>
+                </Box>
+                <Box>
+                  <div
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      backgroundColor: "#f3f3f3",
+                      borderRadius: "50%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  />
+                  <Text size="1" color="gray" align="center">
+                    SOON
+                  </Text>
+                </Box>
               </Flex>
             </>
           ) : (
