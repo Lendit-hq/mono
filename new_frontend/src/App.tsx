@@ -27,13 +27,10 @@ function App() {
 
       {/* Centered Lending Widget */}
       <Flex
-        height="100vh" // Full viewport height
+        style={{ height: "100vh", backgroundColor: "white" }}
         justify="center"
         align="center"
         direction="column"
-        style={{
-          backgroundColor: "white", // Match the widget's background
-        }}
       >
         <Box
           style={{
@@ -45,7 +42,7 @@ function App() {
             width: "700px",
             height: "400px",
             textAlign: "center",
-            border: "1px solid #ddd", // Subtle border for contrast
+            border: "1px solid #ddd",
           }}
         >
           <Heading size="4" mb="2">
