@@ -47,4 +47,42 @@ module lendit::suilend {
             ctx
         )
     }
+
+    public(package) fun suilend_balance<P, T> (lending_market: &LendingMarket<P>, reserve_array_index: u64, ob_cap: &ObligationOwnerCap<P>): u64 {
+        let obligation = lending_market::obligation(lending_market, ob_cap.obligation_id());
+        let deposits = suilend::obligation::deposits(obligation);
+        let length = vector::length(deposits);
+        let mut i = 0u64;
+        while (i < length) {
+            let deposit_ref = vector::borrow(deposits, i);
+                if (deposit_ref.reserve_array_index() == reserve_array_index) {
+                    let reserve = lending_market::reserve<P, T>(lending_market);
+                    let ctoken_ratio = suilend::reserve::ctoken_ratio(reserve);
+                    return suilend::decimal::floor(suilend::decimal::mul(
+                        suilend::decimal::from( deposit_ref.deposited_ctoken_amount()),
+                        ctoken_ratio
+                    ))
+                };
+            i = i + 1;
+        };
+        abort 0
+    }
+
+    public(package) fun conv_to_ctoken<P, T> (lending_market: &LendingMarket<P>, amount: u64): u64 {
+        let reserve = lending_market::reserve<P, T>(lending_market);
+        let ctoken_ratio = suilend::reserve::ctoken_ratio(reserve);
+        suilend::decimal::floor(suilend::decimal::div(
+            suilend::decimal::from( amount),
+            ctoken_ratio
+        ))
+    }
+
+    public(package) fun suilend_apr<P, T>(lending_market: &LendingMarket<P>): u256 {
+        let reserve = suilend::lending_market::reserve<P, T>(lending_market);
+        let cur_util = suilend::reserve::calculate_utilization_rate(reserve);
+        let borrow_apr = suilend::reserve_config::calculate_apr(config(reserve), cur_util);
+        let supply_apr = suilend::reserve_config::calculate_supply_apr(config(reserve), cur_util, borrow_apr);
+        suilend::decimal::to_scaled_val(supply_apr)
+    }
+
 }
