@@ -70,60 +70,92 @@ function App() {
                   }}
                 />
               </Box>
-              <Flex justify="center" align="center" gap="16px">
-                <Box>
-                  <img
-                    src={SuiLendIcon}
-                    alt="SUILEND"
-                    style={{ width: "50px", height: "50px", borderRadius: "50%" }}
-                  />
-                  <Text size="1" color="gray" align="center">
-                    SUILEND
-                  </Text>
-                </Box>
-                <Box>
-                  <img
-                    src={NaviIcon}
-                    alt="NAVI"
-                    style={{ width: "50px", height: "50px", borderRadius: "50%" }}
-                  />
-                  <Text size="1" color="gray" align="center">
-                    NAVI
-                  </Text>
-                </Box>
-                <Box>
-                  <div
-                    style={{
-                      width: "50px",
-                      height: "50px",
-                      backgroundColor: "#f3f3f3",
-                      borderRadius: "50%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  />
-                  <Text size="1" color="gray" align="center">
-                    COMING
-                  </Text>
-                </Box>
-                <Box>
-                  <div
-                    style={{
-                      width: "50px",
-                      height: "50px",
-                      backgroundColor: "#f3f3f3",
-                      borderRadius: "50%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  />
-                  <Text size="1" color="gray" align="center">
-                    SOON
-                  </Text>
-                </Box>
+              <Flex justify="center" align="center" direction="column" gap="16px">
+                {/* Logo Section */}
+                <Flex justify="center" align="center" gap="16px">
+                  <Box>
+                    <img
+                      src={SuiLendIcon}
+                      alt="SUILEND"
+                      style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+                    />
+                    <Text size="1" color="gray" align="center">
+                      SUILEND
+                    </Text>
+                  </Box>
+                  <Box>
+                    <img
+                      src={NaviIcon}
+                      alt="NAVI"
+                      style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+                    />
+                    <Text size="1" color="gray" align="center">
+                      NAVI
+                    </Text>
+                  </Box>
+                  <Box>
+                    <div
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        backgroundColor: "#f3f3f3",
+                        borderRadius: "50%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    />
+                    <Text size="1" color="gray" align="center">
+                      COMING
+                    </Text>
+                  </Box>
+                  <Box>
+                    <div
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        backgroundColor: "#f3f3f3",
+                        borderRadius: "50%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    />
+                    <Text size="1" color="gray" align="center">
+                      SOON
+                    </Text>
+                  </Box>
+                </Flex>
+                {/* Button Section */}
+                <Flex justify="center" gap="16px" mt="16px">
+                <button
+                  style={{
+                    padding: "8px 16px",
+                    border: "none",
+                    borderRadius: "4px",
+                    backgroundColor: "#007bff",
+                    color: "white",
+                    fontSize: "14px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Deposit
+                </button>
+                <button
+                  style={{
+                    padding: "8px 16px",
+                    border: "1px solid #ddd",
+                    borderRadius: "4px",
+                    backgroundColor: "white",
+                    color: "#333",
+                    fontSize: "14px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Withdraw
+                </button>
               </Flex>
+            </Flex>
             </>
           ) : (
             <button
