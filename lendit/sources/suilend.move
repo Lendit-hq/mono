@@ -65,7 +65,7 @@ module lendit::suilend {
                 };
             i = i + 1;
         };
-        abort 0
+        return 0
     }
 
     public(package) fun conv_to_ctoken<P, T> (lending_market: &LendingMarket<P>, amount: u64): u64 {

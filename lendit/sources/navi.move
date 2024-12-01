@@ -41,7 +41,7 @@ module lendit::navi{
         coin::from_balance(withdrawn_balance, ctx)
     }
 
-    public(package) fun navi_balance<A>(account_cap: &AccountCap, pool: &Pool<A>, asset: u8, storage: &mut Storage): u64 {
+    public(package) fun navi_balance<T>(account_cap: &AccountCap, pool: &Pool<T>, asset: u8, storage: &mut Storage): u64 {
         let deposited_balance = logic::user_collateral_balance(storage, asset, account_cap.account_owner());
         pool.unnormal_amount(deposited_balance as u64)
     }
