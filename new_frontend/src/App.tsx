@@ -1,24 +1,74 @@
 import { useState } from "react";
 import { ConnectButton, useCurrentAccount } from "@mysten/dapp-kit";
 import { Box, Flex, Heading, Text } from "@radix-ui/themes";
+import { Transaction } from "@mysten/sui/transactions";
+import { useSignAndExecuteTransactionBlock } from "@mysten/dapp-kit";
+import { toast } from "react-toastify";
 import SuiLendIcon from "./suilend.svg";
 import NaviIcon from "./navi.svg";
 import USDCIcon from "./usdc.svg";
+import { bcs } from '@mysten/sui/bcs';
 
 function App() {
   const account = useCurrentAccount();
-  const [amount, setAmount] = useState(""); // Single input field state
+  const [amount, setAmount] = useState("");
 
   const handleDeposit = async () => {
-    // Logic for Deposit
-    console.log("Deposit clicked with amount:", amount);
-    // Call the deposit function with `amount`
+    if (!amount || Number(amount) <= 0) {
+      toast.error("Please enter a valid amount to deposit.");
+      return;
+    }
+  
+    try {
+      const tx = new Transaction();
+      const [depositToken] = tx.splitCoins(tx.gas, [Number(amount) * 1000000]);
+  
+      const PACKAGE_ID = "0xfafb681a0f4016576a53d3a90de6fbb13b92e87a824cbec1824fe178d608e59e";
+      const MAIN_POOL_TYPE =
+        "0xf95b06141ed4a174f239417323bde3f209b972f5930d8521ea38a52aff3a6ddf::suilend::MAIN_POOL";
+      const USDC_TYPE =
+        "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC";
+  
+      let [coin] = tx.moveCall({
+        target: `${PACKAGE_ID}::lendit::deposit`,
+        typeArguments: [MAIN_POOL_TYPE, USDC_TYPE],
+        arguments: [
+          tx.object("0x0000000000000000000000000000000000000000000000000000000000000006"), // clock
+          tx.object("0xe83bdd50091046b434f246be758bc344a1d12e9100c2414d69eb424020bd56c7"), // coin asset from wallet 
+          tx.object("0xa0247d82c7eabe746860d47b827174e5906cf0f15e9717f431f201e2319ee624"), // treasury cap hoolder (change)
+          tx.object("0x2faec094f67109323fc3242437c53b2594a1b77947490cab4b048818d779e1ed"), // reserve (change)
+          tx.object("0xa3582097b4c57630046c0c49a88bfc6b202a3ec0a9db5597c31765f7563755a8"), // navi pool
+          tx.object("0xbb4e2f4b6205c2e2a2db47aeb4f830796ec7c005f88537ee775986639bc442fe"), // navi storage
+          tx.pure(bcs.U8.serialize(10)), // navi asset
+          tx.object("0x059bccc8046dde1aea32823fee01a41844e082a6ce73fa01aa053ac2daf14583"), // navi account cap holder (change)
+          tx.object("0xaaf735bf83ff564e1b219a0d644de894ef5bdc4b2250b126b2a46dd002331821"), // navi v1
+          tx.object("0xf87a8acb8b81d14307894d12595541a73f19933f88e1326d5be349c7a6f7559c"), // navi v2
+          tx.object("0x1568865ed9a0b5ec414220e8f79b3d04c77acc82358f6e5ae4635687392ffbef"), // navi oracle
+          tx.object("0x84030d26d85eaa7035084a057f2f11f701b7e2e4eda87551becbc7c97505ece1"), // suilend lending market
+          tx.object("0x0daf8bb6527a0bfa956eba5514fc487aaac15b2f05d8e2d419aa728a4f1576b2"), // suilend ob cap holder (change)
+          tx.pure(bcs.U64.serialize(7)), // suilend reserve array index
+          tx.object("0x5dec622733a204ca27f5a90d8c2fad453cc6665186fd5dff13a83d0b6c9027ab"), // suilend price info
+      ],
+      });
+      const { mutate: execDeposit } = useSignAndExecuteTransactionBlock();
+      execDeposit(
+        { transactionBlock: tx },
+        {
+          onSuccess: (result) => {
+            toast.success(`Deposit successful! Transaction Digest: ${result.digest}`);
+          },
+          onError: (error) => {
+            toast.error(`Transaction failed: ${error.message}`);
+          },
+        }
+      );
+    } catch (error:any) {
+      toast.error(`An error occurred: ${error.message}`);
+    }
   };
 
   const handleWithdraw = async () => {
-    // Logic for Withdraw
     console.log("Withdraw clicked with amount:", amount);
-    // Call the withdraw function with `amount`
   };
 
   return (
