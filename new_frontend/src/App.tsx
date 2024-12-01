@@ -1,58 +1,93 @@
 import { ConnectButton, useCurrentAccount } from "@mysten/dapp-kit";
-import { Box, Callout, Container, Flex, Grid, Heading } from "@radix-ui/themes";
-import { HOUSECAP_ID, PACKAGE_ID } from "./constants";
-import { InfoCircledIcon } from "@radix-ui/react-icons";
+import { Box, Flex, Heading, Text } from "@radix-ui/themes";
+
+// Import SVGs directly
+import SuiLendIcon from "./suilend.svg";
+import NaviIcon from "./navi.svg";
 
 function App() {
   const account = useCurrentAccount();
+
   return (
     <>
+      {/* Top-right Connect Wallet Button */}
       <Flex
-        position="sticky"
+        position="absolute"
+        top="0"
+        right="0"
         px="4"
         py="2"
-        justify="between"
+        justify="end"
         style={{
           borderBottom: "1px solid var(--gray-a2)",
         }}
       >
-        <Box>
-          <Heading>Satoshi Coin Flip Single Player</Heading>
-        </Box>
+        <ConnectButton />
+      </Flex>
 
-        <Box>
-          <ConnectButton />
+      {/* Centered Lending Widget */}
+      <Flex
+        height="100vh" // Full viewport height
+        justify="center"
+        align="center"
+        direction="column"
+        style={{
+          backgroundColor: "white", // Match the widget's background
+        }}
+      >
+        <Box
+          style={{
+            backgroundColor: "white",
+            padding: "2rem",
+            marginTop: "15rem",
+            borderRadius: "10px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            width: "700px",
+            height: "400px",
+            textAlign: "center",
+            border: "1px solid #ddd", // Subtle border for contrast
+          }}
+        >
+          <Heading size="4" mb="2">
+            Lend-It
+          </Heading>
+          <Text size="2" mb="4" color="gray">
+            Maximize your lending rates on Sui
+          </Text>
+          {account ? (
+            <>
+              <Box mb="2">
+                <Text>You’re lending:</Text>
+                <input
+                  type="number"
+                  placeholder="0.00"
+                  style={{
+                    width: "100%",
+                    padding: "0.5rem",
+                    marginTop: "0.5rem",
+                    border: "1px solid #ddd",
+                    borderRadius: "5px",
+                  }}
+                />
+              </Box>
+              <Flex justify="center" mt="2">
+                <img
+                  src={SuiLendIcon}
+                  alt="SUILEND"
+                  style={{ width: "40px", marginRight: "10px" }}
+                />
+                <img
+                  src={NaviIcon}
+                  alt="NAVI"
+                  style={{ width: "40px" }}
+                />
+              </Flex>
+            </>
+          ) : (
+            <Text>Please connect your wallet to proceed</Text>
+          )}
         </Box>
       </Flex>
-      <Container>
-        <Heading size="4" m={"2"}>
-          Package ID: {PACKAGE_ID}
-        </Heading>
-        <Heading size="4" m={"2"}>
-          HouseCap ID: {HOUSECAP_ID}
-        </Heading>
-
-        <Callout.Root mb="2">
-          <Callout.Icon>
-            <InfoCircledIcon />
-          </Callout.Icon>
-          <Callout.Text>
-            You need to connect to wallet that publish the smart contract
-            package
-          </Callout.Text>
-        </Callout.Root>
-
-        {!account ? (
-          <Heading size="4" align="center">
-            Please connect wallet to continue
-          </Heading>
-        ) : (
-            <Grid columns="2" gap={"3"} width={"auto"}>
-            <div>Arbitrary Value 1</div>
-            <div>Arbitrary Value 2</div>
-            </Grid>
-        )}
-      </Container>
     </>
   );
 }
