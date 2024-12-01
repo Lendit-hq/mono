@@ -44,6 +44,7 @@ body {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
+    gap: 10px;
   }
   
   .token-selector {
@@ -67,6 +68,7 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 5px;
+    margin-left: 10px;
   }
   
   .dapps-section {
@@ -76,9 +78,29 @@ body {
   .dapps-placeholder {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    align-items: flex-start; 
+    gap: 10px; 
   }
-  
+
+  .dapp-container {
+    text-align: center;
+    width: 60px; 
+  }
+
+  .dapp-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; 
+    display: block; 
+    margin: 0 auto; 
+  }
+
+  .dapp-name {
+    margin-top: 5px;
+    font-size: 0.8rem;
+    color: #888; 
+  }
+
   .dapp {
     width: 40px;
     height: 40px;
