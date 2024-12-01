@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { ConnectButton, useCurrentAccount } from "@mysten/dapp-kit";
 import { Box, Flex, Heading, Text } from "@radix-ui/themes";
 import SuiLendIcon from "./suilend.svg";
@@ -6,6 +7,19 @@ import USDCIcon from "./usdc.svg";
 
 function App() {
   const account = useCurrentAccount();
+  const [amount, setAmount] = useState(""); // Single input field state
+
+  const handleDeposit = async () => {
+    // Logic for Deposit
+    console.log("Deposit clicked with amount:", amount);
+    // Call the deposit function with `amount`
+  };
+
+  const handleWithdraw = async () => {
+    // Logic for Withdraw
+    console.log("Withdraw clicked with amount:", amount);
+    // Call the withdraw function with `amount`
+  };
 
   return (
     <>
@@ -50,10 +64,11 @@ function App() {
           </Text>
           {account ? (
             <>
+              {/* Single Input Box */}
               <Box mb="4">
                 <Flex align="center" mb="2" justify="start">
                   <img
-                    src = {USDCIcon}
+                    src={USDCIcon}
                     alt="USDC"
                     style={{ width: "20px", marginRight: "10px" }}
                   />
@@ -61,7 +76,9 @@ function App() {
                 </Flex>
                 <input
                   type="number"
-                  placeholder="0.00"
+                  placeholder="Enter amount"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
                   style={{
                     width: "100%",
                     padding: "0.75rem",
@@ -70,6 +87,7 @@ function App() {
                   }}
                 />
               </Box>
+
               <Flex justify="center" align="center" direction="column" gap="16px">
                 {/* Logo Section */}
                 <Flex justify="center" align="center" gap="16px">
@@ -126,36 +144,39 @@ function App() {
                     </Text>
                   </Box>
                 </Flex>
+
                 {/* Button Section */}
                 <Flex justify="center" gap="16px" mt="16px">
-                <button
-                  style={{
-                    padding: "8px 16px",
-                    border: "none",
-                    borderRadius: "4px",
-                    backgroundColor: "#007bff",
-                    color: "white",
-                    fontSize: "14px",
-                    cursor: "pointer",
-                  }}
-                >
-                  Deposit
-                </button>
-                <button
-                  style={{
-                    padding: "8px 16px",
-                    border: "1px solid #ddd",
-                    borderRadius: "4px",
-                    backgroundColor: "white",
-                    color: "#333",
-                    fontSize: "14px",
-                    cursor: "pointer",
-                  }}
-                >
-                  Withdraw
-                </button>
+                  <button
+                    onClick={handleDeposit}
+                    style={{
+                      padding: "8px 16px",
+                      border: "none",
+                      borderRadius: "4px",
+                      backgroundColor: "#007bff",
+                      color: "white",
+                      fontSize: "14px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Deposit
+                  </button>
+                  <button
+                    onClick={handleWithdraw}
+                    style={{
+                      padding: "8px 16px",
+                      border: "1px solid #ddd",
+                      borderRadius: "4px",
+                      backgroundColor: "white",
+                      color: "#333",
+                      fontSize: "14px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Withdraw
+                  </button>
+                </Flex>
               </Flex>
-            </Flex>
             </>
           ) : (
             <button
