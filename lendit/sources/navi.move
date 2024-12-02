@@ -49,7 +49,7 @@ module lendit::navi{
     public(package) fun navi_apr(storage: &mut Storage, asset: u8): u256 {
         let borrow_rate = calculator::calculate_borrow_rate(storage, asset);
         let supply_rate = calculator::calculate_supply_rate(storage, asset, borrow_rate);
-        let scaled_supply_rate = supply_rate / 10_000_000_000; // remove one more zero
+        let scaled_supply_rate = supply_rate / 1_000_000_000; 
         scaled_supply_rate
     }
 
