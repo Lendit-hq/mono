@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ConnectButton, useWallet } from "@suiet/wallet-kit";
 import "@suiet/wallet-kit/style.css";
-
+import { Ed25519Keypair } from "@mysten/sui/keypairs/ed25519";
 import { Box, Flex, Heading, Text } from "@radix-ui/themes";
 import { Transaction } from "@mysten/sui/transactions";
 import { toast } from "react-toastify";
@@ -15,8 +15,77 @@ import { SuiClient, getFullnodeUrl } from "@mysten/sui/client";
 function App() {
   const wallet = useWallet();
   const [amount, setAmount] = useState("");
+  const [apy, setApy] = useState<number | null>(null);
   const rpcUrl = getFullnodeUrl("mainnet");
   const client = new SuiClient({ url: rpcUrl });
+  const keypair = Ed25519Keypair.generate();
+  const apr_sender = keypair.getPublicKey().toSuiAddress();
+  
+  function decodeReturnValue(returnValues:any) {
+    const [valueBytes] = returnValues[0];
+    let result = BigInt(0);
+    for (let i = 0; i < valueBytes.length; i++) {
+      result += BigInt(valueBytes[i]) << (BigInt(8) * BigInt(i));
+    }
+    return result;
+  }
+
+  async function navi_apr() {
+    const tx = new Transaction();
+    tx.moveCall({
+      target: "0xe16561ba7ddcc4fed5fbee9df24155a0e9bd13adc344fe5703e2c986b0b746e9::navi::navi_apr",
+      arguments: [
+        tx.object("0xbb4e2f4b6205c2e2a2db47aeb4f830796ec7c005f88537ee775986639bc442fe"),
+        tx.pure(bcs.U8.serialize(10)),
+      ],
+    });
+    const result = await client.devInspectTransactionBlock({
+      sender: apr_sender,
+      transactionBlock: tx,
+    });
+    if (result === null || result === undefined || result.results === null || result.results === undefined) {
+      return 0;
+    }
+    const returnValues = result.results[0].returnValues;
+    return decodeReturnValue(returnValues); // Return the decoded value
+  }
+
+  async function suilend_apr() {
+    const tx = new Transaction();
+    tx.moveCall({
+      target: "0x7cd4eb3becbb78b5830cecc73faea42db660ed882525c3bcfd663ca37a3f9700::suilend::aprCalc",
+      typeArguments: [
+        "0xf95b06141ed4a174f239417323bde3f209b972f5930d8521ea38a52aff3a6ddf::suilend::MAIN_POOL",
+        "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+      ],
+      arguments: [
+        tx.object("0x84030d26d85eaa7035084a057f2f11f701b7e2e4eda87551becbc7c97505ece1"),
+      ],
+    });
+
+    const result = await client.devInspectTransactionBlock({
+      sender: apr_sender,
+      transactionBlock: tx,
+    });
+    if (result === null || result === undefined || result.results === null || result.results === undefined) {
+      return 0;
+    }
+    const returnValues = result.results[0].returnValues;
+    return decodeReturnValue(returnValues); // Return the decoded value
+  }
+
+  async function fetchAndSetApy() {
+    try {
+      const naviApr = await navi_apr();
+      const suilendApr = await suilend_apr();
+      const higherApy = naviApr > suilendApr ? naviApr : suilendApr;
+
+      setApy(Number(higherApy) / 10 ** 16); 
+    } catch (error) {
+      console.error("Error fetching APY:", error);
+    }
+  }
+
 
   const handleDeposit = async () => {
     if (!amount || Number(amount) <= 0) {
@@ -170,6 +239,12 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    if (wallet.connected) {
+      fetchAndSetApy();
+    }
+  }, [wallet.connected]);
+
   return (
     <>
       {/* Top-right Connect Wallet Button */}
@@ -228,9 +303,16 @@ function App() {
                   />
                   <Text size="2" style={{ fontWeight: "bold" }}>USDC</Text>
                 </Flex>
-                <Text size="2" style={{ color: "green", fontWeight: "bold", marginLeft: "auto" }}>
-                  12% APY
-                </Text>
+                  <Text
+                    size="2"
+                    style={{
+                      color: "green",
+                      fontWeight: "bold",
+                      marginLeft: "auto",
+                    }}
+                  >
+                    {apy ? `${apy.toFixed(2)}% APY` : "Loading..."}
+                  </Text>
               </Flex>
                 <input
                   type="number"
