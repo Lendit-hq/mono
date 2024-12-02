@@ -219,14 +219,19 @@ function App() {
             <>
               {/* Single Input Box */}
               <Box mb="4">
-                <Flex align="center" mb="2" justify="start">
+              <Flex align="center" mb="2" justify="between">
+                <Flex align="center">
                   <img
                     src={USDCIcon}
                     alt="USDC"
-                    style={{ width: "20px", marginRight: "10px", marginTop: "5px" }}
+                    style={{ width: "20px", marginRight: "5px", marginTop: "10px", marginBottom: "10px" }}
                   />
-                  <Text size="2">USDC</Text>
+                  <Text size="2" style={{ fontWeight: "bold" }}>USDC</Text>
                 </Flex>
+                <Text size="2" style={{ color: "green", fontWeight: "bold", marginLeft: "auto" }}>
+                  12% APY
+                </Text>
+              </Flex>
                 <input
                   type="number"
                   placeholder="Enter amount"
