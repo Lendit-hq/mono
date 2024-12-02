@@ -56,7 +56,7 @@ function App() {
       
       const [lusdc] = tx.moveCall({
         target:
-          "0xfafb681a0f4016576a53d3a90de6fbb13b92e87a824cbec1824fe178d608e59e::lendit::deposit",
+          "0x761349a326a7e8dfc7f343d44c2b6f391812fca962577308993dbc1776d0c184::lendit::deposit",
         typeArguments: [
           "0xf95b06141ed4a174f239417323bde3f209b972f5930d8521ea38a52aff3a6ddf::suilend::MAIN_POOL",
           "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
@@ -64,17 +64,17 @@ function App() {
         arguments: [
           tx.object("0x0000000000000000000000000000000000000000000000000000000000000006"),
           tx.object(depositToken),
-          tx.object("0xa0247d82c7eabe746860d47b827174e5906cf0f15e9717f431f201e2319ee624"),
-          tx.object("0x2faec094f67109323fc3242437c53b2594a1b77947490cab4b048818d779e1ed"),
+          tx.object("0xd5222bf17214256bc6bf9c23de215cf7bd7cb49f757d5af1d9a2b673258594fa"),
+          tx.object("0x927cc047d15b8ecf1d5f6f6c6f02367229713ce467c94147013e2c1f824960a7"),
           tx.object("0xa3582097b4c57630046c0c49a88bfc6b202a3ec0a9db5597c31765f7563755a8"),
           tx.object("0xbb4e2f4b6205c2e2a2db47aeb4f830796ec7c005f88537ee775986639bc442fe"),
           tx.pure(bcs.U8.serialize(10)),
-          tx.object("0x059bccc8046dde1aea32823fee01a41844e082a6ce73fa01aa053ac2daf14583"),
+          tx.object("0x46e99ac60e042097018ebf237064d1e09dbedbc83a52746341259b85e3dbad86"),
           tx.object("0xaaf735bf83ff564e1b219a0d644de894ef5bdc4b2250b126b2a46dd002331821"),
           tx.object("0xf87a8acb8b81d14307894d12595541a73f19933f88e1326d5be349c7a6f7559c"),
           tx.object("0x1568865ed9a0b5ec414220e8f79b3d04c77acc82358f6e5ae4635687392ffbef"),
           tx.object("0x84030d26d85eaa7035084a057f2f11f701b7e2e4eda87551becbc7c97505ece1"),
-          tx.object("0x0daf8bb6527a0bfa956eba5514fc487aaac15b2f05d8e2d419aa728a4f1576b2"),
+          tx.object("0x7d0f64888dfd9fddf82da4d0b72e976b86b7a5a59c90b0cbb9e608c3ba4f4425"),
           tx.pure(bcs.U64.serialize(7)),
           tx.object("0x5dec622733a204ca27f5a90d8c2fad453cc6665186fd5dff13a83d0b6c9027ab"),
         ],
@@ -108,7 +108,7 @@ function App() {
       const input = {
         owner: wallet.address,
         coinType:
-          "0xfafb681a0f4016576a53d3a90de6fbb13b92e87a824cbec1824fe178d608e59e::lendit::LENDIT",
+          "0x761349a326a7e8dfc7f343d44c2b6f391812fca962577308993dbc1776d0c184::lendit::LENDIT",
       };
 
       const all_lusdc = await client.getCoins(input);
@@ -132,7 +132,7 @@ function App() {
       
       const [usdc] = tx.moveCall({
         target:
-          "0xfafb681a0f4016576a53d3a90de6fbb13b92e87a824cbec1824fe178d608e59e::lendit::redeem",
+          "0x761349a326a7e8dfc7f343d44c2b6f391812fca962577308993dbc1776d0c184::lendit::redeem",
         typeArguments: [
           "0xf95b06141ed4a174f239417323bde3f209b972f5930d8521ea38a52aff3a6ddf::suilend::MAIN_POOL",
           "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
@@ -140,17 +140,17 @@ function App() {
         arguments: [
           tx.object("0x0000000000000000000000000000000000000000000000000000000000000006"),
           tx.object(withdrawToken),
-          tx.object("0xa0247d82c7eabe746860d47b827174e5906cf0f15e9717f431f201e2319ee624"),
-          tx.object("0x2faec094f67109323fc3242437c53b2594a1b77947490cab4b048818d779e1ed"),
+          tx.object("0xd5222bf17214256bc6bf9c23de215cf7bd7cb49f757d5af1d9a2b673258594fa"),
+          tx.object("0x927cc047d15b8ecf1d5f6f6c6f02367229713ce467c94147013e2c1f824960a7"),
           tx.object("0xa3582097b4c57630046c0c49a88bfc6b202a3ec0a9db5597c31765f7563755a8"),
           tx.object("0xbb4e2f4b6205c2e2a2db47aeb4f830796ec7c005f88537ee775986639bc442fe"),
           tx.pure(bcs.U8.serialize(10)),
-          tx.object("0x059bccc8046dde1aea32823fee01a41844e082a6ce73fa01aa053ac2daf14583"),
+          tx.object("0x46e99ac60e042097018ebf237064d1e09dbedbc83a52746341259b85e3dbad86"),
           tx.object("0xaaf735bf83ff564e1b219a0d644de894ef5bdc4b2250b126b2a46dd002331821"),
           tx.object("0xf87a8acb8b81d14307894d12595541a73f19933f88e1326d5be349c7a6f7559c"),
           tx.object("0x1568865ed9a0b5ec414220e8f79b3d04c77acc82358f6e5ae4635687392ffbef"),
           tx.object("0x84030d26d85eaa7035084a057f2f11f701b7e2e4eda87551becbc7c97505ece1"),
-          tx.object("0x0daf8bb6527a0bfa956eba5514fc487aaac15b2f05d8e2d419aa728a4f1576b2"),
+          tx.object("0x7d0f64888dfd9fddf82da4d0b72e976b86b7a5a59c90b0cbb9e608c3ba4f4425"),
           tx.pure(bcs.U64.serialize(7)),
           tx.object("0x5dec622733a204ca27f5a90d8c2fad453cc6665186fd5dff13a83d0b6c9027ab"),
         ],
