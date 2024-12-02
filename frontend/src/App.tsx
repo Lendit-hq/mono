@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import SuiLendIcon from "./suilend.svg";
 import NaviIcon from "./navi.svg";
 import USDCIcon from "./usdc.svg";
+import LendILogo from "./logo.jpg";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, getFullnodeUrl } from "@mysten/sui/client";
 
@@ -203,11 +204,15 @@ function App() {
             textAlign: "center",
             border: "1px solid #eee",
           }}
-        >
-          <Heading size="4" mb="2">
-            Lend-It
-          </Heading>
-          <Text size="2" mb="4" color="gray">
+          >
+          <img
+            src={LendILogo}
+            alt="Lend-It Logo"
+            style={{
+              width: "818px", 
+            }}
+          />
+          <Text size="2" mb="4" color="gray" >
             Maximize your lending rates on Sui
           </Text>
           {wallet ? (
@@ -218,7 +223,7 @@ function App() {
                   <img
                     src={USDCIcon}
                     alt="USDC"
-                    style={{ width: "20px", marginRight: "10px" }}
+                    style={{ width: "20px", marginRight: "10px", marginTop: "5px" }}
                   />
                   <Text size="2">USDC</Text>
                 </Flex>
