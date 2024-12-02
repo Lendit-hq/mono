@@ -27,8 +27,12 @@ function App() {
 
     try {
       const tx = new Transaction();
+      if(wallet.address === undefined) {
+        throw new Error("Wallet not connected");
+      }
+      tx.setSender(wallet.address);
       const input = {
-        owner: wallet.address || "",
+        owner: wallet.address,
         coinType:
           "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
       };
@@ -43,8 +47,12 @@ function App() {
       const otherObjectIds = all_usdc.data
         .slice(1)
         .map((coin) => coin.coinObjectId);
-      const [usdc_merged] = tx.mergeCoins(mainObjectId, otherObjectIds);
-      const [depositToken] = tx.splitCoins(usdc_merged, [
+      
+      if(otherObjectIds.length > 0) {
+        tx.mergeCoins(mainObjectId, otherObjectIds);
+      }
+
+      const [depositToken] = tx.splitCoins(mainObjectId, [
         Number(amount) * 10 ** 6,
       ]);
       
@@ -56,50 +64,24 @@ function App() {
           "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
         ],
         arguments: [
-          tx.object(
-            "0x0000000000000000000000000000000000000000000000000000000000000006",
-          ),
-          depositToken,
-          tx.object(
-            "0xa0247d82c7eabe746860d47b827174e5906cf0f15e9717f431f201e2319ee624",
-          ),
-          tx.object(
-            "0x2faec094f67109323fc3242437c53b2594a1b77947490cab4b048818d779e1ed",
-          ),
-          tx.object(
-            "0xa3582097b4c57630046c0c49a88bfc6b202a3ec0a9db5597c31765f7563755a8",
-          ),
-          tx.object(
-            "0xbb4e2f4b6205c2e2a2db47aeb4f830796ec7c005f88537ee775986639bc442fe",
-          ),
+          tx.object("0x0000000000000000000000000000000000000000000000000000000000000006"),
+          tx.object(depositToken),
+          tx.object("0xa0247d82c7eabe746860d47b827174e5906cf0f15e9717f431f201e2319ee624"),
+          tx.object("0x2faec094f67109323fc3242437c53b2594a1b77947490cab4b048818d779e1ed"),
+          tx.object("0xa3582097b4c57630046c0c49a88bfc6b202a3ec0a9db5597c31765f7563755a8"),
+          tx.object("0xbb4e2f4b6205c2e2a2db47aeb4f830796ec7c005f88537ee775986639bc442fe"),
           tx.pure(bcs.U8.serialize(10)),
-          tx.object(
-            "0x059bccc8046dde1aea32823fee01a41844e082a6ce73fa01aa053ac2daf14583",
-          ),
-          tx.object(
-            "0xaaf735bf83ff564e1b219a0d644de894ef5bdc4b2250b126b2a46dd002331821",
-          ),
-          tx.object(
-            "0xf87a8acb8b81d14307894d12595541a73f19933f88e1326d5be349c7a6f7559c",
-          ),
-          tx.object(
-            "0x1568865ed9a0b5ec414220e8f79b3d04c77acc82358f6e5ae4635687392ffbef",
-          ),
-          tx.object(
-            "0x84030d26d85eaa7035084a057f2f11f701b7e2e4eda87551becbc7c97505ece1",
-          ),
-          tx.object(
-            "0x0daf8bb6527a0bfa956eba5514fc487aaac15b2f05d8e2d419aa728a4f1576b2",
-          ),
+          tx.object("0x059bccc8046dde1aea32823fee01a41844e082a6ce73fa01aa053ac2daf14583"),
+          tx.object("0xaaf735bf83ff564e1b219a0d644de894ef5bdc4b2250b126b2a46dd002331821"),
+          tx.object("0xf87a8acb8b81d14307894d12595541a73f19933f88e1326d5be349c7a6f7559c"),
+          tx.object("0x1568865ed9a0b5ec414220e8f79b3d04c77acc82358f6e5ae4635687392ffbef"),
+          tx.object("0x84030d26d85eaa7035084a057f2f11f701b7e2e4eda87551becbc7c97505ece1"),
+          tx.object("0x0daf8bb6527a0bfa956eba5514fc487aaac15b2f05d8e2d419aa728a4f1576b2"),
           tx.pure(bcs.U64.serialize(7)),
-          tx.object(
-            "0x5dec622733a204ca27f5a90d8c2fad453cc6665186fd5dff13a83d0b6c9027ab",
-          ),
+          tx.object("0x5dec622733a204ca27f5a90d8c2fad453cc6665186fd5dff13a83d0b6c9027ab"),
         ],
       });
-      if(wallet.address === undefined) {
-        throw new Error("Wallet not connected");
-      }
+
       tx.transferObjects([lusdc], wallet.address);
 
       const res = await wallet.signAndExecuteTransaction({
