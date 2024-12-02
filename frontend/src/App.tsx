@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ConnectButton, useWallet } from "@suiet/wallet-kit";
 import "@suiet/wallet-kit/style.css";
 import { Ed25519Keypair } from "@mysten/sui/keypairs/ed25519";
-import { Box, Flex, Heading, Text } from "@radix-ui/themes";
+import { Box, Flex, Text } from "@radix-ui/themes";
 import { Transaction } from "@mysten/sui/transactions";
 import { toast } from "react-toastify";
 import SuiLendIcon from "./suilend.svg";
